@@ -19,7 +19,7 @@ class User extends MY_Controller {
     }
 
     public function login() {
-        if ($this->User_model->check_login() === FALSE) {
+        if ($this->User_model->checkLogin() === FALSE) {
             $data['fields'] = $this->config->item('formLogin');
             $content = $this->load->view('login', $data, TRUE);
             $this->render($content, NULL);
@@ -28,7 +28,7 @@ class User extends MY_Controller {
         }
     }
 
-    public function check_login_data($password) {
+    public function checkLoginData($password) {
 
         $username = $this->input->post('username');
         $result = $this->User_model->login($username, $password);
@@ -57,13 +57,22 @@ class User extends MY_Controller {
     }
 
     public function usersList() {
-//        if ($this->session->userdata('logged_in')) {
         $data['users'] = $this->User_model->getUsersList();
         $content = $this->load->view('userList', $data, TRUE);
         $this->render($content, NULL);
-//        } else {
-//            redirect('/', 'refresh');
-//        }
+    }
+
+    public function addNewUser() {
+        
+        if ($this->form_validation->run('addUser') == FALSE) {
+            var_dump($this->form_validation); die();
+            $data['fields'] = $this->config->item('formAddNewUser');
+            $addNewUserModalContent = $this->load->view('modals/addNewUser', $data, TRUE);
+            echo $addNewUserModalContent;
+
+//            header('Content-Type: application/json');
+//            echo json_encode($addNewUserModalContent);
+        }
     }
 
 }

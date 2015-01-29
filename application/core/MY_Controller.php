@@ -12,7 +12,8 @@ class MY_Controller extends CI_Controller {
     );
     protected $javascripts = array(
         'jquery-1.11.2.min.js',
-        'bootstrap.min.js'
+        'bootstrap.min.js',
+        'custom.js'
     );
 
     public function __construct() {
@@ -20,7 +21,6 @@ class MY_Controller extends CI_Controller {
         if (!$this->session->userdata('logged_in')) {
             // Allow some methods?
             $allowed = array('index', 'login');
-//            var_dump($this->router->fetch_method()); die();
             if (!in_array($this->router->fetch_method(), $allowed)) {
                 redirect('/');
             }

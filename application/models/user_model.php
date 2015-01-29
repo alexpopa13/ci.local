@@ -6,9 +6,18 @@ class User_model extends CI_Model {
         parent::__construct();
     }
 
-    public function check_login() {
+    public function checkLogin() {
         $this->form_validation->set_error_delimiters('<div class="alert alert-danger" role="alert">', '</div>');
         if ($this->form_validation->run('login') == FALSE) {
+            return FALSE;
+        } else {
+            return TRUE;
+        }
+    }
+
+    public function checkNewUser() {
+        $this->form_validation->set_error_delimiters('<div class="alert alert-danger" role="alert">', '</div>');
+        if ($this->form_validation->run('addUser') == FALSE) {
             return FALSE;
         } else {
             return TRUE;

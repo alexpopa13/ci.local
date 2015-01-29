@@ -3,5 +3,3 @@
 <?php else : ?>
     Please login in order to proceed:
 <?php endif; ?>
-
-
