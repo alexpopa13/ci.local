@@ -63,15 +63,18 @@ class User extends MY_Controller {
     }
 
     public function addNewUser() {
-        
-        if ($this->form_validation->run('addUser') == FALSE) {
-            var_dump($this->form_validation); die();
+        if ($this->input->server('REQUEST_METHOD') === 'POST') {
+            $this->form_validation->set_error_delimiters('<div class="alert alert-danger" role="alert">', '</div>');
+            if ($this->form_validation->run('addUser') === FALSE) {
+                $data['fields'] = $this->config->item('formAddNewUser');
+                $addNewUserModalContent = $this->load->view('modals/addNewUser', $data, TRUE);
+                echo $addNewUserModalContent;
+            }
+        } else {
+            unset($_POST);
             $data['fields'] = $this->config->item('formAddNewUser');
             $addNewUserModalContent = $this->load->view('modals/addNewUser', $data, TRUE);
             echo $addNewUserModalContent;
-
-//            header('Content-Type: application/json');
-//            echo json_encode($addNewUserModalContent);
         }
     }
 

@@ -3,8 +3,7 @@
     <h4 class="modal-title" id="myModalLabel">Add new user</h4>
 </div>
 <?php
-echo validation_errors();
-echo form_open('user/addNewUser'); ?>
+echo form_open("user/addNewUser", "id=addNewUser"); ?>
 <div class="modal-body">
     <div class="input-group input-group-sm">
         <?php
@@ -41,4 +40,4 @@ echo form_open('user/addNewUser'); ?>
 <div class="modal-footer">
     <?php echo form_button($fields['submit']); ?>
 </div>
-<?php form_close(); ?>
+<?php echo form_close(); ?>
