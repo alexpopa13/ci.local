@@ -19,6 +19,9 @@ function updateUsersList() {
 }
 
 $(function () {
+    $('#closemodal').click(function () {
+        $('#user-list').modal('hide');
+    });
     $('#user-list').on('hide.bs.modal', function (e) {
         addNewUser("TRUE");
         updateUsersList();
