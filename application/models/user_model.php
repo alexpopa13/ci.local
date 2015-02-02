@@ -47,4 +47,19 @@ class User_model extends CI_Model {
         return $query->result();
     }
 
+    public function addNewUser() {
+        $data = array(
+            'username' => $this->input->post('username'),
+            'firstname' => $this->input->post('username'),
+            'lastname' => $this->input->post('lastname'),
+            'email' => $this->input->post('email'),
+            'password' => md5($this->input->post('user_name'))
+        );
+        $this->db->insert('users', $data);
+        if ($this->db->affected_rows() > 0)
+            return TRUE;
+        else
+            return FALSE;
+    }
+
 }

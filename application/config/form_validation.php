@@ -17,7 +17,7 @@ $config = array(
         array(
             'field' => 'username',
             'label' => 'Username',
-            'rules' => 'trim|required|xss_clean|is_unique'
+            'rules' => 'trim|required|xss_clean|is_unique[users.username]'
         ),
         array(
             'field' => 'firstname',
@@ -32,7 +32,7 @@ $config = array(
         array(
             'field' => 'email',
             'label' => 'Email',
-            'rules' => 'trim|required|xss_clean|valid_email'
+            'rules' => 'trim|required|xss_clean|valid_email|is_unique[users.email]'
         )
     )
 );

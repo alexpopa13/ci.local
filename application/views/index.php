@@ -28,7 +28,9 @@
         <div class="panel-heading">
             <h3 class="panel-title"><?php echo $header; ?></h3>
         </div>
-        <?php echo $content; ?>
+        <div id="mainContent">
+            <?php echo $content; ?>
+        </div>
     </div>
 
 </body>

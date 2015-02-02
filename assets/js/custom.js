@@ -1,22 +1,26 @@
-function addNewUser() {
+function addNewUser(reset) {
     $.ajax({
         url: "addNewUser",
-        type: "POST",
-        data: $('#addNewUser').serialize(),
+        type: (reset === "TRUE") ? "GET" : "POST",
+        data: (reset === "TRUE") ? "" : $('#addNewUser').serialize(),
     }).done(function (data) {
         $('.modal-content').html(data);
     });
 }
 
+function updateUsersList() {
+    $.ajax({
+        url: "usersList",
+        type: "GET",
+        data: "request=AJAX",
+    }).done(function (data) {
+        $('#mainContent').html(data);
+    });
+}
+
 $(function () {
     $('#user-list').on('hide.bs.modal', function (e) {
-        $(this).find('form')[0].reset();
-        console.log($("#addNewUser")[0]);
-        $("#addNewUser")[0].reset();
-//        $.ajax({
-//            url: "addNewUser",
-//        }).done(function (data) {
-//            $('.modal-content').html(data);
-//        });
+        addNewUser("TRUE");
+        updateUsersList();
     });
 });

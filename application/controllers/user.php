@@ -59,23 +59,32 @@ class User extends MY_Controller {
     public function usersList() {
         $data['users'] = $this->User_model->getUsersList();
         $content = $this->load->view('userList', $data, TRUE);
-        $this->render($content, NULL);
+        $getParams = $this->input->get(NULL, TRUE);
+        if ($this->input->server('REQUEST_METHOD') === 'GET' && $getParams['request'] != "AJAX" ) {
+            $this->render($content, NULL);
+        } else {
+            echo $content;
+        }
     }
 
     public function addNewUser() {
+        $data['fields'] = $this->config->item('formAddNewUser');
+
         if ($this->input->server('REQUEST_METHOD') === 'POST') {
             $this->form_validation->set_error_delimiters('<div class="alert alert-danger" role="alert">', '</div>');
-            if ($this->form_validation->run('addUser') === FALSE) {
-                $data['fields'] = $this->config->item('formAddNewUser');
+            if ($this->form_validation->run('addUser')) {
+                if ($this->User_model->addNewUser()) {
+                    $addNewUserModalContent = $this->load->view('modals/addNewUserSuccess');
+                } else {
+                    $addNewUserModalContent = $this->load->view('modals/addNewUserError');
+                }
+            } else {
                 $addNewUserModalContent = $this->load->view('modals/addNewUser', $data, TRUE);
-                echo $addNewUserModalContent;
             }
         } else {
-            unset($_POST);
-            $data['fields'] = $this->config->item('formAddNewUser');
             $addNewUserModalContent = $this->load->view('modals/addNewUser', $data, TRUE);
-            echo $addNewUserModalContent;
         }
+        echo $addNewUserModalContent;
     }
 
 }
