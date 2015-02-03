@@ -57,10 +57,15 @@ class User extends MY_Controller {
     }
 
     public function usersList() {
-        $data['users'] = $this->User_model->getUsersList();
-        $content = $this->load->view('userList', $data, TRUE);
+        $data['users'] = $this->User_model->getUsersList("id");
         $getParams = $this->input->get(NULL, TRUE);
-        if ($this->input->server('REQUEST_METHOD') === 'GET' && $getParams['request'] != "AJAX" ) {
+
+        if ($this->input->server('REQUEST_METHOD') === 'GET' && isset($getParams['sortby'])) {
+            $data['users'] = $this->User_model->getUsersList($getParams['sortby']);
+        }
+
+        $content = $this->load->view('userList', $data, TRUE);
+        if ($this->input->server('REQUEST_METHOD') === 'GET' && $getParams['request'] != "AJAX") {
             $this->render($content, NULL);
         } else {
             echo $content;

@@ -1,11 +1,11 @@
-<table class="table">
+<table class="table" id="userListTable">
     <thead>
         <tr>
-            <th>#</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Username</th>
-            <th>Email</th>
+            <th id="numberCrt">#</th>
+            <th id="firstname">First Name</th>
+            <th id="lastname">Last Name</th>
+            <th id="username">Username</th>
+            <th id="email">Email</th>
         </tr>
     </thead>
     <tbody>

@@ -8,22 +8,31 @@ function addNewUser(reset) {
     });
 }
 
-function updateUsersList() {
+function updateUsersList(order) {
     $.ajax({
         url: "usersList",
         type: "GET",
-        data: "request=AJAX",
+        data: order ? order : "request=AJAX",
     }).done(function (data) {
         $('#mainContent').html(data);
     });
 }
 
-$(function () {
+$(document).ready(function () {
+    // On close modal, trigger the hide event
     $('#closemodal').click(function () {
         $('#user-list').modal('hide');
     });
-    $('#user-list').on('hide.bs.modal', function (e) {
+
+    // Hide event for modal
+    $('#user-list').on('hide.bs.modal', function () {
         addNewUser("TRUE");
-        updateUsersList();
+        updateUsersList("");
+    });
+
+    // Users list table header sort
+    $("#mainContent").on("click", "#userListTable th", function () {
+        var order = "&sortby=" + $(this).attr('id');
+        updateUsersList(order);
     });
 });
