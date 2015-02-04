@@ -12,7 +12,11 @@ class User extends MY_Controller {
 
     public function index() {
         if ($this->session->userdata('logged_in')) {
-            redirect('user/usersList', 'refresh');
+            if ($this->session->userdata('logged_in')['role'] == "ADMIN") {
+                redirect('user/usersList', 'refresh');
+            } else {
+                redirect('user/editProfile', 'refresh');
+            }
         } else {
             redirect('user/login', 'refresh');
         }
@@ -39,13 +43,14 @@ class User extends MY_Controller {
                 $sess_array = array(
                     'username' => $row->username,
                     'firstname' => $row->firstname,
-                    'lastname' => $row->lastname
+                    'lastname' => $row->lastname,
+                    'role' => $row->name
                 );
                 $this->session->set_userdata('logged_in', $sess_array);
             }
             return TRUE;
         } else {
-            $this->form_validation->set_message('check_login_data', 'Invalid username or password');
+            $this->form_validation->set_message('checkLoginData', 'Invalid username or password');
             return FALSE;
         }
     }
@@ -57,18 +62,16 @@ class User extends MY_Controller {
     }
 
     public function usersList() {
-        $data['users'] = $this->User_model->getUsersList("id");
-        $getParams = $this->input->get(NULL, TRUE);
-
-        if ($this->input->server('REQUEST_METHOD') === 'GET' && isset($getParams['sortby'])) {
-            $data['users'] = $this->User_model->getUsersList($getParams['sortby']);
-        }
-
-        $content = $this->load->view('userList', $data, TRUE);
-        if ($this->input->server('REQUEST_METHOD') === 'GET' && $getParams['request'] != "AJAX") {
-            $this->render($content, NULL);
+        $data['users'] = $this->User_model->getUsersList("id", "asc");
+        if ($this->input->is_ajax_request()) {
+            $getParams = $this->input->get();
+            if (isset($getParams['sortby']) && $this->db->field_exists($getParams['sortby'], 'users')) {
+                $data['users'] = $this->User_model->getUsersList($getParams['sortby'], $getParams['order']);
+            }
+            $this->load->view('userList', $data);
         } else {
-            echo $content;
+            $content = $this->load->view('userList', $data, TRUE);
+            $this->render($content, NULL);
         }
     }
 
@@ -90,6 +93,11 @@ class User extends MY_Controller {
             $addNewUserModalContent = $this->load->view('modals/addNewUser', $data, TRUE);
         }
         echo $addNewUserModalContent;
+    }
+
+    public function editProfile() {
+        $content = $this->load->view('editProfile', $data, TRUE);
+        $this->render($content, NULL);
     }
 
 }

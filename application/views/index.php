@@ -7,6 +7,7 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
     <meta name="viewport" content="width=device-width" />
     <title>Title Goes Here</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <!--[if IE 9]>
       <style type="text/css"> .gradient { filter: none;} </style>
     <![endif]-->
@@ -30,6 +31,14 @@
         </div>
         <div id="mainContent">
             <?php echo $content; ?>
+        </div>
+    </div>
+
+    <div class="modal fade" id="user-list" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+            </div>
         </div>
     </div>
 

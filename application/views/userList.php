@@ -1,20 +1,34 @@
 <table class="table" id="userListTable">
     <thead>
         <tr>
-            <th id="numberCrt">#</th>
-            <th id="firstname">First Name</th>
-            <th id="lastname">Last Name</th>
-            <th id="username">Username</th>
-            <th id="email">Email</th>
+            <th id="id">
+                #
+                <i class="fa fa-sort"></i>
+            </th>
+            <th id="firstname">
+                First Name
+                <i class="fa fa-sort"></i>
+            </th>
+            <th id="lastname">
+                Last Name
+                <i class="fa fa-sort"></i>
+            </th>
+            <th id="username">
+                Username
+                <i class="fa fa-sort"></i>
+            </th>
+            <th id="email">
+                Email
+                <i class="fa fa-sort"></i>
+            </th>
         </tr>
     </thead>
     <tbody>
         <?php
-        $index = 1;
         foreach ($users as $user) :
             ?>
             <tr>
-                <th scope="row"><?php echo $index++; ?></th>
+                <th scope="row"><?php echo $user->id ?></th>
                 <td><?php echo $user->firstname ?></td>
                 <td><?php echo $user->lastname ?></td>
                 <td><?php echo $user->username ?></td>
@@ -26,11 +40,3 @@
 <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#user-list" data-remote="addNewUser">
     Add new user
 </button>
-
-<div class="modal fade" id="user-list" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-
-        </div>
-    </div>
-</div>

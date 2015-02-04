@@ -18,12 +18,18 @@ class MY_Controller extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
+        $allowed = array('index', 'login', 'logout');
         if (!$this->session->userdata('logged_in')) {
-            // Allow some methods?
-            $allowed = array('index', 'login');
-            if (!in_array($this->router->fetch_method(), $allowed)) {
-                redirect('/');
+            
+        } else {
+            if ($this->session->userdata('logged_in')['role'] == "ADMIN") {
+                $allowed[] = "usersList";  $allowed[] = "addNewUser";
+            } else {
+                $allowed[] = "editProfile";
             }
+        }
+        if (!in_array($this->router->fetch_method(), $allowed)) {
+            redirect('/');
         }
     }
 
