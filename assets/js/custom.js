@@ -25,7 +25,6 @@ $(document).ready(function () {
     // Hide event for modal
     $('#user-list').on('hide.bs.modal', function () {
         addNewUser("get");
-        //location.reload();
         updateUsersList("id", "fa-sort-desc")
     });
 
