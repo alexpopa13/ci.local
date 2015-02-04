@@ -57,6 +57,7 @@ class User_model extends CI_Model {
             'firstname' => $this->input->post('firstname'),
             'lastname' => $this->input->post('lastname'),
             'email' => $this->input->post('email'),
+            'role' => 1,
             'password' => md5($this->input->post('username'))
         );
         $this->db->insert('users', $data);
