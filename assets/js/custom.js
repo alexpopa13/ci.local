@@ -22,17 +22,11 @@ function updateUsersList(field, order) {
 }
 
 $(document).ready(function () {
-// On close modal, trigger the hide event
-//    $('#mainContent').on("click", "#closemodal", function () {
-//        console.log("aaa");
-//        $('#user-list').modal('hide');
-////        location.reload();
-//    });
     // Hide event for modal
     $('#user-list').on('hide.bs.modal', function () {
-        console.log("bbb");
         addNewUser("get");
-        // location.reload();
+        //location.reload();
+        updateUsersList("id", "fa-sort-desc")
     });
 
     // Users list table header sort
