@@ -1,8 +1,18 @@
-function addNewUser(method) {
+function addNewUser() {
     $.ajax({
         url: "addNewUser",
-        type: (method == "get") ? "GET" : "POST",
-        data: (method == "get") ? "" : $('#addNewUser').serialize(),
+        type: "POST",
+        data: $('#addNewUser').serialize(),
+    }).done(function (data) {
+        $('.modal-content').html(data);
+    });
+}
+
+function editUser() {
+    $.ajax({
+        url: "editUser",
+        type: "POST",
+        data: $('#editUserPopup').serialize(),
     }).done(function (data) {
         $('.modal-content').html(data);
     });
@@ -24,7 +34,7 @@ function updateUsersList(field, order) {
 $(document).ready(function () {
     // Hide event for modal
     $('#user-list').on('hide.bs.modal', function () {
-        addNewUser("get");
+        $(this).removeData('bs.modal');
         updateUsersList("id", "fa-sort-desc")
     });
 

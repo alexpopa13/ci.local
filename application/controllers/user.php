@@ -82,42 +82,60 @@ class User extends MY_Controller {
             $this->form_validation->set_error_delimiters('<div class="alert alert-danger" role="alert">', '</div>');
             if ($this->form_validation->run('addUser')) {
                 if ($this->User_model->addNewUser()) {
-                    $addNewUserModalContent = $this->load->view('modals/addNewUserSuccess');
+                    echo $this->load->view('modals/addNewUserSuccess');
                 } else {
-                    $addNewUserModalContent = $this->load->view('modals/addNewUserError');
+                    echo $this->load->view('modals/addNewUserError');
                 }
             } else {
-                $addNewUserModalContent = $this->load->view('modals/addNewUser', $data, TRUE);
+                echo $this->load->view('modals/addNewUser', $data, TRUE);
             }
-        } else {
-            $addNewUserModalContent = $this->load->view('modals/addNewUser', $data, TRUE);
         }
-        echo $addNewUserModalContent;
+    }
+
+    public function getAddNewUserForm() {
+        $data['fields'] = $this->config->item('formAddNewUser');
+        echo $this->load->view('modals/addNewUser', $data, TRUE);
     }
 
     public function editUser() {
         $data['fields'] = $this->config->item('formEditUser');
         $data['loggedUser'] = $this->User_model->getUserByUsername($this->session->userdata('logged_in')['username']);
         if ($this->input->server('REQUEST_METHOD') === 'POST') {
-            $data['loggedUser'] = $_POST;
+            $data['loggedUser'] = $this->input->post();
             $this->form_validation->set_error_delimiters('<div class="alert alert-danger" role="alert">', '</div>');
-            if ($this->form_validation->run('addUser') === TRUE) {
+            if ($this->form_validation->run('addUser')) {
                 if ($this->User_model->updateUser()) {
-                    $this->session->set_flashdata('success', 'The user was sucessfully updated!');
+                    if ($this->input->is_ajax_request()) {
+                        echo $this->load->view('modals/editUserSuccess');
+                        return;
+                    } else {
+                        $this->session->set_flashdata('success', 'The user was sucessfully updated!');
+                        redirect('user/editUser');
+                    }
                 } else {
-                    $this->session->set_flashdata('error', 'Error on updating user!');
+                    if ($this->input->is_ajax_request()) {
+                        echo $this->load->view('modals/editUserError');
+                        return;
+                    } else {
+                        $this->session->set_flashdata('error', 'Error on updating user!');
+                        redirect('user/editUser');
+                    }
                 }
-                 redirect('user/editUser');
+            } else {
+                echo $this->load->view('modals/editUser', $data, TRUE);
             }
-            $content = $this->load->view('editUser', $data, TRUE);
-            $this->render($content, NULL);
-        } else {
-
-            $content = $this->load->view('editUser', $data, TRUE);
-            $this->render($content, NULL);
         }
+        $content = $this->load->view('editUser', $data, TRUE);
+        $this->render($content, NULL);
+    }
+
+    function getEditUserForm() {
+        $getParams = $this->input->get();
+        $data['fields'] = $this->config->item('formEditUserAjax');
+        $data['loggedUser'] = $this->User_model->getUserById($getParams['userId']);
+        echo $this->load->view('modals/editUser', $data, TRUE);
     }
 
 }
 
-/* End of file welcome.php */
+/* End of file welcome.php */    

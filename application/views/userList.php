@@ -27,8 +27,8 @@
         <?php
         foreach ($users as $user) :
             ?>
-            <tr>
-                <th scope="row"><?php echo $user->id ?></th>
+        <tr id="<?php echo $user->id ?>" data-toggle="modal" data-target="#user-list" data-remote="getEditUserForm?userId=<?php echo $user->id ?>">
+                <td scope="row"><?php echo $user->id ?></td>
                 <td><?php echo $user->firstname ?></td>
                 <td><?php echo $user->lastname ?></td>
                 <td><?php echo $user->username ?></td>
@@ -37,6 +37,6 @@
         <?php endforeach; ?>
     </tbody>
 </table>
-<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#user-list" data-remote="addNewUser">
+<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#user-list" data-remote="getAddNewUserForm">
     Add new user
 </button>
