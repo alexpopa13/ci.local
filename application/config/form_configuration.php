@@ -60,5 +60,46 @@ $config = array(
             'aria-label' => 'Center Align',
             'type' => 'button'
         )
+    ),
+    'formEditUser' => array(
+        'username' => array(
+            'name' => 'username',
+            'id' => 'username',
+            'placeholder' => 'Username',
+            'class' => 'form-control',
+            'aria-describedby' => 'sizing-addon3',
+        ),
+        'firstname' => array(
+            'name' => 'firstname',
+            'id' => 'firstname',
+            'placeholder' => 'Firstname',
+            'class' => 'form-control',
+            'aria-describedby' => 'sizing-addon3',
+        ),
+        'lastname' => array(
+            'name' => 'lastname',
+            'id' => 'lastname',
+            'placeholder' => 'Lastname',
+            'class' => 'form-control',
+            'aria-describedby' => 'sizing-addon3',
+        ),
+        'email' => array(
+            'name' => 'email',
+            'id' => 'email',
+            'placeholder' => 'Email',
+            'class' => 'form-control',
+            'aria-describedby' => 'sizing-addon3',
+        ),
+        'id' => array(
+            'name' => 'id',
+            'id' => 'id',
+            'type' => 'hidden'
+        ),
+        'submit' => array(
+            'content' => 'Edit user',
+            'class' => 'btn btn-default',
+            'aria-label' => 'Center Align',
+            'type' => 'submit'
+        )
     )
 );

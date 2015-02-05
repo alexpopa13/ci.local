@@ -15,7 +15,7 @@ class User extends MY_Controller {
             if ($this->session->userdata('logged_in')['role'] == "ADMIN") {
                 redirect('user/usersList', 'refresh');
             } else {
-                redirect('user/editProfile', 'refresh');
+                redirect('user/editUser', 'refresh');
             }
         } else {
             redirect('user/login', 'refresh');
@@ -95,9 +95,27 @@ class User extends MY_Controller {
         echo $addNewUserModalContent;
     }
 
-    public function editProfile() {
-        $content = $this->load->view('editProfile', $data, TRUE);
-        $this->render($content, NULL);
+    public function editUser() {
+        $data['fields'] = $this->config->item('formEditUser');
+        $data['loggedUser'] = $this->User_model->getUserByUsername($this->session->userdata('logged_in')['username']);
+        if ($this->input->server('REQUEST_METHOD') === 'POST') {
+            $data['loggedUser'] = $_POST;
+            $this->form_validation->set_error_delimiters('<div class="alert alert-danger" role="alert">', '</div>');
+            if ($this->form_validation->run('addUser') === TRUE) {
+                if ($this->User_model->updateUser()) {
+                    $this->session->set_flashdata('success', 'The user was sucessfully updated!');
+                } else {
+                    $this->session->set_flashdata('error', 'Error on updating user!');
+                }
+                 redirect('user/editUser');
+            }
+            $content = $this->load->view('editUser', $data, TRUE);
+            $this->render($content, NULL);
+        } else {
+
+            $content = $this->load->view('editUser', $data, TRUE);
+            $this->render($content, NULL);
+        }
     }
 
 }

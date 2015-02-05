@@ -25,7 +25,7 @@ class MY_Controller extends CI_Controller {
             if ($this->session->userdata('logged_in')['role'] == "ADMIN") {
                 $allowed[] = "usersList";  $allowed[] = "addNewUser";
             } else {
-                $allowed[] = "editProfile";
+                $allowed[] = "editUser";
             }
         }
         if (!in_array($this->router->fetch_method(), $allowed)) {

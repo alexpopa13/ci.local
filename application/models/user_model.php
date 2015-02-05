@@ -67,4 +67,27 @@ class User_model extends CI_Model {
             return FALSE;
     }
 
+    public function getUserByUsername($username) {
+        $this->db->select('*');
+        $this->db->from('users');
+        $this->db->where('username', $username);
+        $query = $this->db->get();
+        return $query->result_array()[0];
+    }
+
+    public function updateUser() {
+        $data = array(
+            'username' => $this->input->post('username'),
+            'firstname' => $this->input->post('firstname'),
+            'lastname' => $this->input->post('lastname'),
+            'email' => $this->input->post('email'),
+        );
+        $this->db->where('id', $this->input->post('id'));
+        $this->db->update('users', $data);
+        if ($this->db->affected_rows() > 0)
+            return TRUE;
+        else
+            return FALSE;
+    }
+
 }
