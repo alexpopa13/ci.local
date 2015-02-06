@@ -44,6 +44,14 @@
         echo form_input($fields['id']);
         ?>
     </div>
+    <div class="input-group input-group-sm">
+        <?php
+        echo form_dropdown('role', $roles, $loggedUser["role"], $fields['role']['extra']);
+
+        $fields['id']['value'] = $loggedUser["id"];
+        echo form_input($fields['id']);
+        ?>
+    </div>
     <?php
     if (form_error('email'))
         echo form_error('email');

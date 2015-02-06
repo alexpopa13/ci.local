@@ -42,8 +42,9 @@ class User_model extends CI_Model {
     }
 
     public function getUsersList($field, $order) {
-        $this->db->select('*');
+        $this->db->select('users.id as id, username, firstname, lastname, email, roles.name as role');
         $this->db->from('users');
+        $this->db->join('roles', 'roles.id = users.role', 'left');
         if ($field && $order) {
             $this->db->order_by($field, $order);
         }
@@ -89,14 +90,31 @@ class User_model extends CI_Model {
             'firstname' => $this->input->post('firstname'),
             'lastname' => $this->input->post('lastname'),
             'email' => $this->input->post('email'),
+            'role' => $this->input->post('role'),
         );
-
         $this->db->where('id', $this->input->post('id'));
         $this->db->update('users', $data);
-        if ($this->db->affected_rows() >= 0)
+        if ($this->db->affected_rows() >= 0) {
+            $sess_array = array(
+                'username' => $this->input->post('username'),
+                'firstname' => $this->input->post('firstname'),
+                'lastname' => $this->input->post('lastname'),
+                'role' => $this->session->userdata('logged_in')['role']
+            );
+            $this->session->set_userdata('logged_in', $sess_array);
             return TRUE;
-        else
+        } else
             return FALSE;
+    }
+
+    public function getRolesForSelect() {
+        $this->db->select('*');
+        $this->db->from('roles');
+        $query = $this->db->get();
+        foreach ($query->result() as $role) {
+            $roles[$role->id] = $role->name;
+        }
+        return $roles;
     }
 
 }

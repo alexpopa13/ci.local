@@ -131,6 +131,9 @@ $config = array(
             'class' => 'form-control',
             'aria-describedby' => 'sizing-addon3',
         ),
+        'role' => array(
+            'extra' => 'id="role" placeholder="Role" class="form-control"',
+        ),
         'id' => array(
             'name' => 'id',
             'id' => 'id',

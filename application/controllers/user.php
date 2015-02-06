@@ -62,7 +62,7 @@ class User extends MY_Controller {
     }
 
     public function usersList() {
-        $data['users'] = $this->User_model->getUsersList("id", "asc");
+        $data['users'] = $this->User_model->getUsersList("users.id", "asc");
         if ($this->input->is_ajax_request()) {
             $getParams = $this->input->get();
             if (isset($getParams['sortby']) && $this->db->field_exists($getParams['sortby'], 'users')) {
@@ -100,26 +100,17 @@ class User extends MY_Controller {
     public function editUser() {
         $data['fields'] = $this->config->item('formEditUser');
         $data['loggedUser'] = $this->User_model->getUserByUsername($this->session->userdata('logged_in')['username']);
+        $this->form_validation->set_error_delimiters('<div class="alert alert-danger" role="alert">', '</div>');
+        
         if ($this->input->server('REQUEST_METHOD') === 'POST') {
             $data['loggedUser'] = $this->input->post();
-            $this->form_validation->set_error_delimiters('<div class="alert alert-danger" role="alert">', '</div>');
             if ($this->form_validation->run('addUser')) {
-                if ($this->User_model->updateUser()) {
-                    if ($this->input->is_ajax_request()) {
-                        echo $this->load->view('modals/editUserSuccess');
-                        return;
-                    } else {
-                        $this->session->set_flashdata('success', 'The user was sucessfully updated!');
-                        redirect('user/editUser');
-                    }
+                if ($this->input->is_ajax_request()) {
+                    echo $this->User_model->updateUser() ? $this->load->view('modals/editUserSuccess') : $this->load->view('modals/editUserError');
+                    return;
                 } else {
-                    if ($this->input->is_ajax_request()) {
-                        echo $this->load->view('modals/editUserError');
-                        return;
-                    } else {
-                        $this->session->set_flashdata('error', 'Error on updating user!');
-                        redirect('user/editUser');
-                    }
+                    $this->User_model->updateUser() ? $this->session->set_flashdata('success', 'The user was sucessfully updated!') : $this->session->set_flashdata('error', 'Error on updating user!');
+                    redirect('user/editUser');
                 }
             } else {
                 echo $this->load->view('modals/editUser', $data, TRUE);
@@ -133,6 +124,7 @@ class User extends MY_Controller {
         $getParams = $this->input->get();
         $data['fields'] = $this->config->item('formEditUserAjax');
         $data['loggedUser'] = $this->User_model->getUserById($getParams['userId']);
+        $data['roles'] = $this->User_model->getRolesForSelect();
         echo $this->load->view('modals/editUser', $data, TRUE);
     }
 

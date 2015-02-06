@@ -21,6 +21,10 @@
                 Email
                 <i class="fa fa-sort"></i>
             </th>
+            <th id="role">
+                Role
+                <i class="fa fa-sort"></i>
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -33,6 +37,7 @@
                 <td><?php echo $user->lastname ?></td>
                 <td><?php echo $user->username ?></td>
                 <td><?php echo $user->email ?></td>
+                <td><?php echo $user->role ?></td>
             </tr>
         <?php endforeach; ?>
     </tbody>
