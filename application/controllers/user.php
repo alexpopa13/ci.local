@@ -62,11 +62,12 @@ class User extends MY_Controller {
     }
 
     public function usersList() {
-        $data['users'] = $this->User_model->getUsersList("users.id", "asc");
+        $data['users'] = $this->User_model->getUsersList("users.id", "asc", "");
         if ($this->input->is_ajax_request()) {
             $getParams = $this->input->get();
             if (isset($getParams['sortby']) && $this->db->field_exists($getParams['sortby'], 'users')) {
-                $data['users'] = $this->User_model->getUsersList($getParams['sortby'], $getParams['order']);
+                $data['users'] = $this->User_model->getUsersList($getParams['sortby'], $getParams['order'], $getParams['text']);
+                $data['text'] = $getParams['text'];
             }
             $this->load->view('userList', $data);
         } else {
@@ -81,11 +82,7 @@ class User extends MY_Controller {
         if ($this->input->server('REQUEST_METHOD') === 'POST') {
             $this->form_validation->set_error_delimiters('<div class="alert alert-danger" role="alert">', '</div>');
             if ($this->form_validation->run('addUser')) {
-                if ($this->User_model->addNewUser()) {
-                    echo $this->load->view('modals/addNewUserSuccess');
-                } else {
-                    echo $this->load->view('modals/addNewUserError');
-                }
+                echo $this->User_model->addNewUser() ? $this->load->view('modals/addNewUserSuccess') : $this->load->view('modals/addNewUserError');
             } else {
                 echo $this->load->view('modals/addNewUser', $data, TRUE);
             }
@@ -101,7 +98,7 @@ class User extends MY_Controller {
         $data['fields'] = $this->config->item('formEditUser');
         $data['loggedUser'] = $this->User_model->getUserByUsername($this->session->userdata('logged_in')['username']);
         $this->form_validation->set_error_delimiters('<div class="alert alert-danger" role="alert">', '</div>');
-        
+
         if ($this->input->server('REQUEST_METHOD') === 'POST') {
             $data['loggedUser'] = $this->input->post();
             if ($this->form_validation->run('addUser')) {
@@ -115,9 +112,10 @@ class User extends MY_Controller {
             } else {
                 echo $this->load->view('modals/editUser', $data, TRUE);
             }
+        } else {
+            $content = $this->load->view('editUser', $data, TRUE);
+            $this->render($content, NULL);
         }
-        $content = $this->load->view('editUser', $data, TRUE);
-        $this->render($content, NULL);
     }
 
     function getEditUserForm() {
@@ -126,6 +124,22 @@ class User extends MY_Controller {
         $data['loggedUser'] = $this->User_model->getUserById($getParams['userId']);
         $data['roles'] = $this->User_model->getRolesForSelect();
         echo $this->load->view('modals/editUser', $data, TRUE);
+    }
+
+    function sendMail() {
+
+
+        $message = '';
+        $this->email->set_newline("\r\n");
+        $this->email->from('xxx@gmail.com'); // change it to yours
+        $this->email->to('alexandru.popa13@gmail.com'); // change it to yours
+        $this->email->subject('Resume from JobsBuddy for your Job posting');
+        $this->email->message($message);
+        if ($this->email->send()) {
+            echo 'Email sent.';
+        } else {
+            show_error($this->email->print_debugger());
+        }
     }
 
 }

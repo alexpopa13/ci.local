@@ -41,12 +41,15 @@ class User_model extends CI_Model {
         }
     }
 
-    public function getUsersList($field, $order) {
+    public function getUsersList($field, $order, $text) {
         $this->db->select('users.id as id, username, firstname, lastname, email, roles.name as role');
         $this->db->from('users');
         $this->db->join('roles', 'roles.id = users.role', 'left');
         if ($field && $order) {
             $this->db->order_by($field, $order);
+        }
+        if ($text) {
+            $this->db->like('username', $text);
         }
         $query = $this->db->get();
         return $query->result();

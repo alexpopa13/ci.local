@@ -23,7 +23,7 @@ class MY_Controller extends CI_Controller {
             
         } else {
             if ($this->session->userdata('logged_in')['role'] == "ADMIN") {
-                $allowed[] = "usersList";  $allowed[] = "addNewUser"; $allowed[] = "editUser"; $allowed[] = "getAddNewUserForm"; $allowed[] = "getEditUserForm";
+                $allowed[] = "usersList";  $allowed[] = "addNewUser"; $allowed[] = "editUser"; $allowed[] = "getAddNewUserForm"; $allowed[] = "getEditUserForm"; $allowed[] = "sendMail";
             } else {
                 $allowed[] = "editUser";
             }
