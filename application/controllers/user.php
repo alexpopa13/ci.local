@@ -69,9 +69,10 @@ class User extends MY_Controller {
                 $data['users'] = $this->User_model->getUsersList($getParams['sortby'], $getParams['order'], $getParams['text']);
                 $data['text'] = $getParams['text'];
             }
-            $this->load->view('userList', $data);
+            $this->load->view('ajax/userList', $data);
         } else {
-            $content = $this->load->view('userList', $data, TRUE);
+            $content = $this->load->view('users', $data, TRUE);
+            $content .= $this->load->view('ajax/userList', $data, TRUE);
             $this->render($content, NULL);
         }
     }

@@ -25,11 +25,10 @@ function updateUsersList(field, order, text) {
         url: "usersList",
         data: "&sortby=" + field + "&order=" + direction + "&text=" + text,
     }).done(function (data) {
-        $('#mainContent').html(data);
+        $('#usersTable').html(data);
         var classStr = $('#userListTable #' + field + " i").attr('class');
         $('#userListTable #' + field + " i").removeClass(classStr.substr(classStr.lastIndexOf(' ') + 1));
         $('#userListTable #' + field + " i").addClass((order === "fa-sort-asc") ? "fa-sort-desc" : "fa-sort-asc");
-        console.log(text);
         $("#mainContent #search").val(text);
     });
 }
@@ -48,7 +47,7 @@ $(document).ready(function () {
         updateUsersList($(this).attr('id'), lastClass, $("#search").val());
     });
 
-    $("#mainContent").bind("change paste keyup", "search", function () {
+    $("#mainContent").find("#search").bind("change keyup", function () {
         updateUsersList('id', 'fa-sort-desc', $("#search").val());
     });
 });
