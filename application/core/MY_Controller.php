@@ -8,7 +8,8 @@ class MY_Controller extends CI_Controller {
     protected $layout = 'index';
     protected $stylesheets = array(
         'bootstrap.min.css',
-        'bootstrap-theme.min.css'
+        'bootstrap-theme.min.css',
+        'custom.css'
     );
     protected $javascripts = array(
         'jquery-1.11.2.min.js',

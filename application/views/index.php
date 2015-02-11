@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width" />
     <title>User Management</title>
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
     <!--[if IE 9]>
       <style type="text/css"> .gradient { filter: none;} </style>
     <![endif]-->
@@ -23,6 +24,7 @@
         echo js($javascript);
     }
     ?>
+    <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 </head>
 <body>
     <div class="panel panel-primary">

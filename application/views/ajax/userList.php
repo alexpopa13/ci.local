@@ -32,7 +32,7 @@
             <?php
             foreach ($users as $user) :
                 ?>
-                <tr id="<?php echo $user->id ?>" data-toggle="modal" data-target="#user-list" data-remote="getEditUserForm?userId=<?php echo $user->id ?>">
+                <tr id="<?php echo $user->id ?>" data-toggle="modal" data-target="#user-list" data-remote="getEditUserForm?userId=<?php echo $user->id ?>" title="We ask for your age only for statistical purposes.">
                     <td scope="row"><?php echo $user->id ?></td>
                     <td><?php echo $user->firstname ?></td>
                     <td><?php echo $user->lastname ?></td>

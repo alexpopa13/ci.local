@@ -34,6 +34,7 @@ function updateUsersList(field, order, text) {
 }
 
 $(document).ready(function () {
+    $(document).tooltip();
     // Hide event for modal
     $('#user-list').on('hide.bs.modal', function () {
         $(this).removeData('bs.modal');
